@@ -3,8 +3,8 @@ const defaultTimeoutInMs = 5000;
 
 module.exports = class PageUtil {
 
-    waitUntilVisibilityOf(elementToBeVisible) {
-        return browser.driver.wait(until.visibilityOf(elementToBeVisible), defaultTimeoutInMs);
+    waitUntilVisibilityOf(element) {
+        return browser.driver.wait(until.visibilityOf(element), defaultTimeoutInMs);
     };
 
     switchToIframe(iframeElement) {
