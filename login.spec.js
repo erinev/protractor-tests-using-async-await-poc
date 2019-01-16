@@ -1,3 +1,5 @@
+const PageUtilObject = require('./utils/pageUtil');
+const PageUtil = new PageUtilObject();
 const LoginPageObject = require('./pageObjects/loginPage');
 const LoginPage = new LoginPageObject();
 
@@ -12,7 +14,9 @@ describe('Login page', function() {
     beforeEach(async function() {});
 
     afterEach(async function() {
-        await LoginPage.switchToDefaultContent();
+        await PageUtil.closeAllTabsExceptFirst();
+
+        await LoginPage.open();
     });
 
     afterAll(async function() {});
@@ -29,5 +33,23 @@ describe('Login page', function() {
         const bannerImageStyleAttribute = await LoginPage.bannerImage.getAttribute('style');
 
         expect(bannerImageStyleAttribute).toContain('background-image: url(');
+    });
+
+    it('should open forgot password form', async function() {   
+        await LoginPage.clickForgotPasswordLink();
+
+        const currentUrl = await PageUtil.getCurrentUrl();
+
+        expect(currentUrl).toContain('/sts/ForgotPassword?signin=');
+    });
+
+    it('should return to login page after forgot form is cancelled', async function() {   
+        await LoginPage.clickForgotPasswordLink();
+
+        await LoginPage.clickForgotPasswordFormCancelButton();
+
+        const currentUrl = await PageUtil.getCurrentUrl();
+
+        expect(currentUrl).toContain('/sts/login?signin=');
     });
 });

@@ -1,9 +1,5 @@
 module.exports = class BasePage {
 
-    constructor() {
-        this.title = 'BasePage';
-    }
-
     init() {
         browser.waitForAngularEnabled(false);
     }
